@@ -1,0 +1,3 @@
+/home/webouchhioua/rayTracing/RayTracing_GPU/sequentiel/build/CMakeFiles/rebuild_cache.dir
+/home/webouchhioua/rayTracing/RayTracing_GPU/sequentiel/build/CMakeFiles/edit_cache.dir
+/home/webouchhioua/rayTracing/RayTracing_GPU/sequentiel/build/CMakeFiles/raytracer_sequential.dir

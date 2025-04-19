@@ -1,7 +1,13 @@
-#include "include/objet_gpu.h"
-#include "include/scene_gpu.h"
-#include "include/cuda_utils.h"
+#include "device_functions.h"
+/*
+#include "objet_gpu.h"
+#include "scene_gpu.h"*/
+#include "cuda_utils.h"
+#include "camera.h"
+// Déclarations des fonctions utilisées
 
+/*__device__ bool intersect_scene(const SceneData& scene, const Ray& ray, float t_min, float t_max, InfoIntersect& rec);
+__device__ bool scatter_material(const Material& mat, const Ray& ray_in, const InfoIntersect& rec, Color& attenuation, Ray& scattered, curandStateXORWOW* rand_state);*/
 /**
  * Calcule la couleur d'un rayon en prenant en compte les intersections et les matériaux.
  * Version itérative optimisée pour CUDA (pas de récursivité).
@@ -45,6 +51,7 @@ __device__ Color ray_color(
 __global__ void render_kernel(
     Color* image,
     SceneData scene,
+    Camera cam,
     int width,
     int height,
     int samples,

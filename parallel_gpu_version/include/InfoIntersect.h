@@ -4,7 +4,7 @@
 
 #include "vecteur3d.h"
 #include "point3d.h"
-
+#include "ray.h"
 struct InfoIntersect {
     point3d p;
     vecteur3d normal;
@@ -13,7 +13,7 @@ struct InfoIntersect {
     bool front_face;
 
     __device__ void set_face_normal(const Ray& ray, const vecteur3d& outward_normal) {
-        front_face = vecteur3d::dot(ray.direction(), outward_normal) < 0;
+        front_face = dot(ray.direction(), outward_normal) < 0;
         normal = front_face ? outward_normal : -1.0f * outward_normal;
     }
 };

@@ -1,7 +1,7 @@
 #ifndef PLANE_H
 #define PLANE_H
 
-#include "Objet.h"
+#include "objet.h"
 #include "point3d.h"
 
 class Plane : public Objet {

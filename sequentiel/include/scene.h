@@ -5,8 +5,8 @@
 #include <memory>
 #include <limits>
 #include <algorithm>
-#include "Objet.h"
-#include "Lumiere.h"
+#include "objet.h"
+#include "lumiere.h"
 #include "color.h"
 #include "InfoIntersect.h"
 #include "ray.h"

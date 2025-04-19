@@ -15,6 +15,7 @@ struct SceneData {
 };
 
 // Fonction d'intersection de la scène
+/*
 __device__ bool intersect_scene(
     const SceneData& scene,
     const Ray& ray,
@@ -36,5 +37,8 @@ __device__ bool intersect_scene(
 
     return hit_anything;
 }
-
+*/
+// Déclaration seulement (pas d'implémentation)
+__device__ bool intersect_scene(const SceneData& scene, const Ray& ray, 
+    float t_min, float t_max, InfoIntersect& rec);
 #endif

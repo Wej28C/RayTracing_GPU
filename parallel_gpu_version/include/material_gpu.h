@@ -6,6 +6,8 @@
 #include "InfoIntersect.h"
 #include "ray.h"
 #include "color.h"
+#include"cuda_utils.h"
+#include <curand_kernel.h> 
 enum MaterialType { LAMBERTIAN, METAL, DIELECTRIC };
 
 struct Material {
@@ -16,13 +18,14 @@ struct Material {
 };
 
 // Fonction de scattering générique (dispatch manuel)
+/*
 __device__ bool scatter_material(
     const Material& mat,
     const Ray& ray_in,
     const InfoIntersect& rec,
     Color& attenuation,
     Ray& scattered,
-    curandState* rand_state
+    curandStateXORWOW* rand_state
 ) {
     switch (mat.type) {
         case LAMBERTIAN: {
@@ -35,5 +38,9 @@ __device__ bool scatter_material(
         default: return false;
     }
 }
+    */
+    __device__ bool scatter_material(const Material& mat, const Ray& ray_in,
+        const InfoIntersect& rec, Color& attenuation,
+        Ray& scattered, curandStateXORWOW* rand_state) ; 
 
 #endif

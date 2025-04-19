@@ -1,0 +1,3 @@
+/home/webouchhioua/rayTracing/RayTracing_GPU/parallel_gpu_version/build/CMakeFiles/rebuild_cache.dir
+/home/webouchhioua/rayTracing/RayTracing_GPU/parallel_gpu_version/build/CMakeFiles/edit_cache.dir
+/home/webouchhioua/rayTracing/RayTracing_GPU/parallel_gpu_version/build/CMakeFiles/raytracer_cuda.dir

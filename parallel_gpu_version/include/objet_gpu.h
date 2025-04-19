@@ -12,13 +12,14 @@ struct Object_GPU {
     ObjectType type;
     union {
         struct { point3d center; float radius; } sphere;
-        struct { point3d p1, p2, p3; } triangle;
+        struct { point3d v0, v1, v2; } triangle;
         struct { point3d point; vecteur3d normal; } plane;
     };
     int material_id; // Index dans le tableau de matériaux GPU
 };
 
 // Fonction d'intersection générique (dispatch manuel)
+/*
 __device__ bool intersect_object(
     const Object_GPU& obj,
     const Ray& ray,
@@ -29,9 +30,9 @@ __device__ bool intersect_object(
     switch (obj.type) {
         case SPHERE: {
             vecteur3d oc = ray.origin() - obj.sphere.center;
-            float a = vecteur3d::dot(ray.direction(), ray.direction());
-            float half_b = vecteur3d::dot(oc, ray.direction());
-            float c = vecteur3d::dot(oc, oc) - obj.sphere.radius * obj.sphere.radius;
+            float a = dot(ray.direction(), ray.direction());
+            float half_b = dot(oc, ray.direction());
+            float c = dot(oc, oc) - obj.sphere.radius * obj.sphere.radius;
             float discriminant = half_b * half_b - a * c;
 
             if (discriminant < 0) return false;
@@ -78,6 +79,9 @@ __device__ bool intersect_object(
         }
         default: return false;
     }
+    
 }
-
+*/
+__device__ bool intersect_object(const Object_GPU& obj, const Ray& ray,
+    float t_min, float t_max, InfoIntersect& rec);
 #endif

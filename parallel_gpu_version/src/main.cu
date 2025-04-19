@@ -1,9 +1,16 @@
-#include "include/camera.h"
-#include "include/scene_gpu.h"
-#include "include/cuda_utils.h"
+#include "camera.h"
+#include "scene_gpu.h"
+#include "cuda_utils.h"
+#include "device_functions.h"
 #include <cuda_runtime.h>
-
+#include <vector> 
+#include "ppm_writer.h"  
+#include <chrono>
+#include <iostream>
+// Déclaration du kernel
+__global__ void render_kernel(Color* image, SceneData scene, Camera cam, int width, int height, int samples, curandState* rand_states);
 int main() {
+    auto start = std::chrono::high_resolution_clock::now();
     // Configuration de l'image
     const int width = 800, height = 450, samples = 100;
     
@@ -65,17 +72,30 @@ int main() {
     // ------------------------------------------
     // Étape 4 : Exécution du kernel de rendu
     // ------------------------------------------
+    /* timer*/
+   
     Color* d_image;
     cudaMalloc(&d_image, width * height * sizeof(Color));
-    
+
+    cudaEvent_t start_gpu, stop_gpu;
+    cudaEventCreate(&start_gpu);
+    cudaEventCreate(&stop_gpu);
     // Configuration des blocs (16x16 threads par bloc)
     dim3 blockSize(16, 16);
     dim3 gridSize((width + blockSize.x - 1) / blockSize.x, 
                   (height + blockSize.y - 1) / blockSize.y);
+    Camera cam;
+   
+  
     
+    cudaEventRecord(start_gpu);
     // Appel du kernel
-    render_kernel<<<gridSize, blockSize>>>(d_image, d_scene, width, height, samples, d_rand_states);
-
+    render_kernel<<<gridSize, blockSize>>>(d_image, d_scene, cam, width, height, samples, d_rand_states);
+    cudaEventRecord(stop_gpu);
+    cudaEventSynchronize(stop_gpu);
+    
+    float gpu_ms = 0;
+    cudaEventElapsedTime(&gpu_ms, start_gpu, stop_gpu);
     // ------------------------------------------
     // Étape 5 : Récupération et sauvegarde de l'image
     // ------------------------------------------
@@ -94,6 +114,17 @@ int main() {
     cudaFree(d_rand_states);
     cudaFree(d_image);
     delete[] h_image;
-    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    // Affichage des résultats
+    std::cout << "=== Performance ===" << std::endl;
+    std::cout << "Temps total d'exécution: " << duration << " ms" << std::endl;
+    std::cout << "Temps GPU (kernel seulement): " << gpu_ms << " ms" << std::endl;
+    std::cout << "===================" << std::endl;
+
+    // Nettoyage des événements CUDA
+    cudaEventDestroy(start_gpu);
+    cudaEventDestroy(stop_gpu);
     return 0;
 }

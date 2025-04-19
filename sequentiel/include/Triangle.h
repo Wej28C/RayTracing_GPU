@@ -1,7 +1,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include "Objet.h"
+#include "objet.h"
 #include "point3d.h"
 #include "vecteur3d.h"
 class Triangle : public Objet {
