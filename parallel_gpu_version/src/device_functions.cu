@@ -84,12 +84,37 @@ __device__ bool intersect_object(
         // Intersection pour les triangles (simplifiée)
         case TRIANGLE: {
             // Implémentation de l'algorithme Möller–Trumbore
-            vecteur3d edge1 = obj.triangle.v1 - obj.triangle.v0;
+           /*/ vecteur3d edge1 = obj.triangle.v1 - obj.triangle.v0;
             vecteur3d edge2 = obj.triangle.v2 - obj.triangle.v0;
             vecteur3d h = cross(ray.direction(), edge2);
-            float a = dot(edge1, h);
-            // ... (suite du code)
-            return true;
+            float a = dot(edge1, h);*/
+                vecteur3d edge1 = obj.triangle.v1 - obj.triangle.v0;
+                vecteur3d edge2 = obj.triangle.v2 - obj.triangle.v0;
+                vecteur3d h = cross(ray.direction(), edge2);
+                float a = dot(edge1, h);
+
+                if (fabsf(a) < 1e-8f) return false;  // Le rayon est parallèle au triangle
+
+                float f = 1.0f / a;
+                vecteur3d s = ray.origin() - obj.triangle.v0;
+                float u = f * dot(s, h);
+                if (u < 0.0f || u > 1.0f) return false;
+
+                vecteur3d q = cross(s, edge1);
+                float v = f * dot(ray.direction(), q);
+                if (v < 0.0f || u + v > 1.0f) return false;
+
+                float t = f * dot(edge2, q);
+                if (t < t_min || t > t_max) return false;
+
+                rec.t = t;
+                rec.p = ray.emis(t);
+                vecteur3d outward_normal =cross(edge1, edge2).normalized();
+                rec.set_face_normal(ray, outward_normal);
+                rec.material_id = obj.material_id;
+
+                return true;
+
         }
 
         // Intersection pour les plans

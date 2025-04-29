@@ -7,9 +7,10 @@
 #include "ppm_writer.h"  
 #include <chrono>
 #include <iostream>
+
 // Déclaration du kernel
 __global__ void render_kernel(Color* image, SceneData scene, Camera cam, int width, int height, int samples, curandState* rand_states);
-int main() {
+int main(int argc, char** argv) {
     auto start = std::chrono::high_resolution_clock::now();
     // Configuration de l'image
     const int width = 800, height = 450, samples = 100;
@@ -19,7 +20,7 @@ int main() {
     // ------------------------------------------
     std::vector<Object_GPU> h_objects;
     std::vector<Material> h_materials;
-    
+    /*
     // Matériau Lambertian (sol)
     h_materials.push_back(Material{LAMBERTIAN, Color(0.8f, 0.8f, 0.0f)});
     
@@ -31,7 +32,98 @@ int main() {
     });
     
     // ... Ajouter d'autres objets
+*/
+//
+/*
+//----------------TEST1------------------//
+        // Matériau Lambertian (sol)
+   h_materials.push_back(Material{LAMBERTIAN, Color(0.8f, 0.8f, 0.0f)});
+   
+   // Sphère centrale
+   h_objects.push_back(Object_GPU{
+       .type = SPHERE,
+       .sphere = {.center = point3d(0, 0, -2), .radius = 0.5f},
+       .material_id = 0  // Index du matériau ci-dessus
+   });
+/*
+   //----------FIN TEST1------------------//
+   
+   //----------------TEST2------------------//
+   h_materials.push_back(Material{LAMBERTIAN, Color(0.8f, 0.8f, 0.0f)}); // sol jaune
+   h_materials.push_back(Material{LAMBERTIAN, Color(0.2f, 0.3f, 0.7f)}); // sphère Bleu 
 
+   // Sol plan 
+   h_objects.push_back(Object_GPU{
+       .type = PLANE,
+       .plane = {.point = point3d(0, -0.5f, -1), .normal= vecteur3d(0,1,0)},
+       .material_id = 0
+   });
+
+   // Sphère flottante
+   h_objects.push_back(Object_GPU{
+       .type = SPHERE,
+       .sphere = {.center = point3d(0, 0, -1.5f), .radius = 0.5f},
+       .material_id = 1
+   });
+    //----------FIN TEST2------------------//
+    */
+   /*
+    //----------------TEST3------------------//
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.8f, 0.5f, 0.2f)}); // Triangle orange
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.1f, 0.8f, 0.1f)}); // sphere vert 
+ 
+    // Sphère
+    h_objects.push_back(Object_GPU{
+        .type = SPHERE,
+        .sphere = {.center = point3d(0, 0, -1.5f), .radius = 0.5f},
+        .material_id = 1
+    });
+ 
+    // Triangle
+    h_objects.push_back(Object_GPU{
+        .type = TRIANGLE,
+        .triangle = {
+            .v0 = point3d(-1.5f, -0.5f, -3.0f),
+            .v1 = point3d(1.5f, -0.5f, -3.0f),
+            .v2 = point3d(0.0f, 1.5f, -3.0f)
+        },
+        .material_id = 0
+    });
+  */  //----------FIN TEST3------------------//
+    
+    //----------------TEST4------------------//
+    // // 3 spheres avec mat et tailles différentes
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.9f, 0.1f, 0.1f)}); // rouge
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.1f, 0.9f, 0.1f)}); // vert 
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.1f, 0.1f, 0.9f)}); // bleu 
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.6f, 0.6f, 0.6f)}); // sol 
+ 
+    h_objects.push_back(Object_GPU{.type=SPHERE, .sphere={.center = point3d(-1.0f, 0.0f, -2.5f), .radius = 0.4f}, 0});
+    h_objects.push_back(Object_GPU{.type=SPHERE, .sphere={.center = point3d(0.0f, 0, -1.5f), .radius = 0.5f}, 1});
+    h_objects.push_back(Object_GPU{.type=SPHERE, .sphere={.center = point3d(1.0f, 0, -2.0f), .radius = 0.3f}, 2});
+   h_objects.push_back(Object_GPU{
+    .type = PLANE,
+    .plane = {.point = point3d(0, -0.5f, 0), .normal= vecteur3d(0,1,0)},
+    .material_id = 3
+    });
+    //----------FIN TEST4------------------//
+   /* //----------------TEST5------------------//
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.8f, 0.8f, 0.8f)}); // sol
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.9f, 0.1f, 0.1f)}); // sphère1 RED
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.2f, 0.3f, 0.8f)}); // sphère2 BLEU
+    h_materials.push_back(Material{LAMBERTIAN, Color(0.1f, 0.9f, 0.6f)}); // triangle VERT TURQUOISE
+ 
+    h_objects.push_back(Object_GPU{
+        .type = PLANE,
+        .plane = {.point = point3d(0, -1.0f, 0), .normal= vecteur3d(0,1,0)},
+        .material_id = 0
+        });
+    h_objects.push_back(Object_GPU{.type=SPHERE, .sphere={.center = point3d(-0.75f, -0.5f, -1.8f), .radius = 0.5f}, 1});
+    h_objects.push_back(Object_GPU{.type=SPHERE, .sphere={.center = point3d(0.75f, -0.5f, -1.2f), .radius = 0.5f}, 2});
+    h_objects.push_back(Object_GPU{
+        .type=TRIANGLE, .triangle={.v0 = point3d(-1, 0.0, -3), .v1 = point3d(1, 0.0, -3), .v2 = point3d(0, 2, -3)}, 3});
+    //----------FIN TEST5------------------/
+*/
     // ------------------------------------------
     // Étape 2 : Transfert des données vers le GPU
     // ------------------------------------------
@@ -104,8 +196,10 @@ int main() {
                width * height * sizeof(Color), 
                cudaMemcpyDeviceToHost);
     
+   // write_ppm("output_gpu.ppm", h_image, width, height);
+ //   std::string filename = "output_test" + std::to_string(test_id) + ".ppm";
     write_ppm("output_gpu.ppm", h_image, width, height);
-
+    
     // ------------------------------------------
     // Étape 6 : Nettoyage de la mémoire
     // ------------------------------------------

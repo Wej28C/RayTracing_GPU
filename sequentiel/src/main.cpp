@@ -126,8 +126,86 @@ int main() {
      point3d tri_p2(1.0f, 0.0f, -2.0f);  // Point 2
      point3d tri_p3(0.0f, 1.0f, -2.0f);  // Point 3
      scene.ajouterObjet(std::make_shared<Triangle>(tri_p1, tri_p2, tri_p3, material_triangle));
-        */
-    auto mat_ground = std::make_shared<lambertian>(Color(0.8f, 0.8f, 0.0f)); // Jaune
+        *//*
+        //-------TEST1--------//
+        auto mat_sphere = std::make_shared<lambertian>(Color(0.8f, 0.8f, 0.0f)); // Jaune
+        scene.ajouterObjet(std::make_shared<Sphere>(
+            point3d(0, 0, -2),   // Centre
+            0.5f,                // Rayon
+            mat_sphere
+        ));
+        //---FIN TEST1-----//
+*//*
+     //------TEST2-------//
+        auto mat_ground = std::make_shared<lambertian>(Color(0.8f, 0.8f, 0.0f)); // Jaune
+        auto mat_sphere = std::make_shared<lambertian>(Color(0.2f, 0.3f, 0.7f)); // Bleu
+
+        scene.ajouterObjet(std::make_shared<Plane>(
+            point3d(0, -0.5f, 0), vecteur3d(0, 1, 0), mat_ground));
+
+        scene.ajouterObjet(std::make_shared<Sphere>(
+            point3d(0, 0, -1.5f), 0.5f, mat_sphere));
+        //-----FIN TEST2 ---------//
+
+  /*     //--------TEST 3--------------//
+            auto mat_triangle = std::make_shared<lambertian>(Color(0.8f, 0.5f, 0.2f)); // Orange
+            auto mat_sphere = std::make_shared<lambertian>(Color(0.1f, 0.8f, 0.1f));   // Vert
+
+            scene.ajouterObjet(std::make_shared<Triangle>(
+                point3d(-1.5f, -0.5f, -3.0f),
+                point3d(1.5f, -0.5f, -3.0f),
+                point3d(0.0f, 1.5f, -3.0f),
+                mat_triangle
+            ));
+
+            scene.ajouterObjet(std::make_shared<Sphere>(
+                point3d(0.0f, 0.0f, -1.5f), 0.5f, mat_sphere));
+        //-----FIN TEST 3 ---------//
+/*      //--------TEST 4--------------//
+            auto red = std::make_shared<lambertian>(Color(0.9f, 0.1f, 0.1f));
+            auto green = std::make_shared<lambertian>(Color(0.1f, 0.9f, 0.1f));
+            auto blue = std::make_shared<lambertian>(Color(0.1f, 0.1f, 0.9f));
+            auto ground = std::make_shared<lambertian>(Color(0.6f, 0.6f, 0.6f));
+
+            scene.ajouterObjet(std::make_shared<Plane>(
+                point3d(0, -0.5f, 0), vecteur3d(0, 1, 0), ground));
+
+            scene.ajouterObjet(std::make_shared<Sphere>(
+                point3d(-1.0f, 0.0f, -2.5f), 0.4f, red));
+
+            scene.ajouterObjet(std::make_shared<Sphere>(
+                point3d(0.0f, 0.0f, -1.5f), 0.5f, green));
+
+            scene.ajouterObjet(std::make_shared<Sphere>(
+                point3d(1.0f, 0.0f, -2.0f), 0.3f, blue));
+        //-----FIN TEST 4 ---------//
+
+   */    //--------TEST 5--------------//
+   
+   //sol, triangle, 2 sphères, couleurs contrastées
+   
+   auto mat_plane = std::make_shared<lambertian>(Color(0.8f, 0.8f, 0.8f));  // Sol gris clair
+                auto mat_red = std::make_shared<lambertian>(Color(0.9f, 0.1f, 0.1f));
+                auto mat_blue = std::make_shared<lambertian>(Color(0.2f, 0.3f, 0.8f));
+                auto mat_triangle = std::make_shared<lambertian>(Color(0.1f, 0.9f, 0.6f)); // Vert turquoise
+                
+                scene.ajouterObjet(std::make_shared<Plane>(
+                    point3d(0, -1, 0), vecteur3d(0, 1, 0), mat_plane));
+                
+                scene.ajouterObjet(std::make_shared<Sphere>(
+                    point3d(-0.75f, -0.5f, -1.8f), 0.5f, mat_red));
+                
+                scene.ajouterObjet(std::make_shared<Sphere>(
+                    point3d(0.75f, -0.5f, -1.2f), 0.5f, mat_blue));
+                
+                scene.ajouterObjet(std::make_shared<Triangle>(
+                    point3d(-1.0f, 0.0f, -3.0f),
+                    point3d(1.0f, 0.0f, -3.0f),
+                    point3d(0.0f, 2.0f, -3.0f),
+                    mat_triangle));
+        //-----FIN TEST 5 ---------//                
+/*
+   auto mat_ground = std::make_shared<lambertian>(Color(0.8f, 0.8f, 0.0f)); // Jaune
     auto mat_sphere = std::make_shared<lambertian>(Color(0.7f, 0.3f, 0.3f)); // Rouge
     auto mat_triangle = std::make_shared<lambertian>(Color(0.2f, 0.5f, 0.8f)); // Bleu
 
@@ -150,6 +228,8 @@ int main() {
         point3d(0, 2, -1),   // Point C
         mat_triangle
     ));
+*/
+
      // Création de la caméra
     Camera cam;
     

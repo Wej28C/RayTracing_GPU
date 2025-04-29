@@ -12,7 +12,7 @@ struct Object_GPU {
     ObjectType type;
     union {
         struct { point3d center; float radius; } sphere;
-        struct { point3d v0, v1, v2; } triangle;
+        struct { point3d v0; point3d v1;  point3d v2; } triangle;
         struct { point3d point; vecteur3d normal; } plane;
     };
     int material_id; // Index dans le tableau de matériaux GPU
