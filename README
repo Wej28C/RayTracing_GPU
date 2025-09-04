@@ -1,6 +1,6 @@
-# 🎇 Ray Tracing in C++ / CUDA  
+#Ray Tracing in C++ / CUDA  
 
-## 📌 Project Overview  
+##Project Overview
 This project was developed as part of the **CHPS0802 – GPU Programming** module at the University of Reims Champagne-Ardenne (URCA).  
 The goal was to design a 3D rendering engine using **Ray Tracing**, first implemented in **sequential C++**, then migrated to **CUDA** to leverage massive GPU parallelism.  
 
